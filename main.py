@@ -1,8 +1,8 @@
 import pygame
 import sys
 
-from const import WIDTH, HEIGHT
-from game import Game
+from src.const import WIDTH, HEIGHT
+from src.game import Game
 
 class Main:
     def __init__(self):

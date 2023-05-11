@@ -1,6 +1,6 @@
-from const import COLS, ROWS
-from square import Square
-from piece import Pawn, Rook, Knight, Bishop, King, Queen
+from src.const import COLS, ROWS
+from .square import Square
+from .piece import Pawn, Rook, Knight, Bishop, King, Queen
 
 class Board:
     def __init__(self):

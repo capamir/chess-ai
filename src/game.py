@@ -1,7 +1,7 @@
 import pygame
 
-from const import ROWS, COLS, SQSIZE
-from board import Board
+from .const import ROWS, COLS, SQSIZE
+from .board.board import Board
 
 class Game:
     def __init__(self, surface):

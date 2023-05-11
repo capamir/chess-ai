@@ -1,7 +1,7 @@
 import pygame
 import sys
 
-from const import *
+from const import WIDTH, HEIGHT
 from game import Game
 
 class Main:
@@ -10,20 +10,20 @@ class Main:
         pygame.init()
         self.screen = pygame.display.set_mode(size)
         pygame.display.set_caption("Chess")
-        self.game = Game()
+        self.game = Game(self.screen)
 
     def mainloop(self):
-        while True:
-            self.game.show_bg(self.screen)
+        game = self.game
 
+        while True:
+            game.show_bg()
+            game.show_pieces()
             # closing the game
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-            # main code
-
-            # end code
+            
             pygame.display.update()
 
 main = Main()

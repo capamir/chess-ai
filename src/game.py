@@ -1,6 +1,6 @@
 import pygame
 
-from .const import ROWS, COLS, SQSIZE
+from .const import ROWS, COLS, SQSIZE, COLORS
 from .board.board import Board
 
 class Game:
@@ -12,9 +12,9 @@ class Game:
         for row in range(ROWS):
             for col in range(COLS):
                 if (row + col) % 2 == 0:
-                    color = (234, 235, 200) # light green
+                    color = COLORS['green']['light'] # light green
                 else:
-                    color = (119, 154, 88) # dark green
+                    color = COLORS['green']['dark'] # dark green
                 
                 rect = (col*SQSIZE, row*SQSIZE, SQSIZE, SQSIZE)
 

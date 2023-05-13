@@ -12,11 +12,33 @@ class Main:
         pygame.display.set_caption("Chess")
         self.game = Game(self.screen)
 
+    def clicked_event(self):
+            board = self.game.board
+            dragger = self.game.dragger
+            
+            # click event
+            for event in pygame.event.get():
+                # clicked
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.mouse_clicked(board ,event)
+
+                # mouse motion 
+                elif event.type == pygame.MOUSEMOTION:
+                    self.mouse_motion(event)
+
+                # click release 
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    dragger.undrag_piece()
+
+                # quit application
+                elif event.type == pygame.QUIT:
+                    self.quit_app()
+
     def show_board(self):
         self.game.show_bg()
         self.game.show_pieces()
 
-    def clicked(self, board, event):
+    def mouse_clicked(self, board, event):
         dragger = self.game.dragger
 
         dragger.update_mouse_pos(event.pos)
@@ -44,7 +66,6 @@ class Main:
 
     def mainloop(self):
         game = self.game
-        board = self.game.board
         dragger = self.game.dragger
 
         while True:
@@ -52,24 +73,8 @@ class Main:
 
             if dragger.draging:
                 dragger.update_blit(game.surface)
-
-            # click event
-            for event in pygame.event.get():
-                # clicked
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.clicked(board ,event)
-
-                # mouse motion 
-                elif event.type == pygame.MOUSEMOTION:
-                    self.mouse_motion(event)
-
-                # click release 
-                elif event.type == pygame.MOUSEBUTTONUP:
-                    dragger.undrag_piece()
-
-                # quit application
-                elif event.type == pygame.QUIT:
-                    self.quit_app()
+            
+            self.clicked_event()
             
             pygame.display.update()
 

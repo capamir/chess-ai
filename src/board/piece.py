@@ -19,7 +19,7 @@ class Piece:
             f'src/assets/images/imgs-{size}px/{self.color}_{self.name}.png'
         )
     
-    def add_moves(self, move):
+    def add_move(self, move):
         self.valid_moves.append(move)
 
     # def blit_img(self, size, cor):

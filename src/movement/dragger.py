@@ -5,7 +5,7 @@ from src.const import SQSIZE
 class Dragger:
     def __init__(self):
         self.piece = None
-        self.draging = False
+        self.draging: bool = False
         self.mouseX: int = 0
         self.mouseY: int = 0
         self.initial_row: int = 0

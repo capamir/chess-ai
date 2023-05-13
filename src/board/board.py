@@ -53,32 +53,8 @@ class Board:
         """
             claculate all the possible (valid) moves of a specific piece on the specific position
         """
-        def knight_moves():
-            possible_moves = [
-                (row-2, col+1),
-                (row-2, col-1),
-                (row-1, col+2),
-                (row+1, col+2),
-                (row+2, col+1),
-                (row+2, col-1),
-                (row-1, col-2),
-                (row+1, col-2),
-            ]
-            for move in possible_moves:
-                possible_row, possible_col = move
-                if Square.in_range(possible_row, possible_col):
-                    if self.squares[possible_row][possible_col].is_empty_or_rival(piece.color):
-                        # create squares of the move
-                        initial = Square(row, col)
-                        final = Square(possible_row, possible_col)
-                        # create a new move
-                        move = Move(initial, final)
-                        # append new valid move 
-                        piece.add_move(move)
 
-
-        if isinstance(piece, Pawn):
-            pass
+        if isinstance(piece, Pawn): piece.moves(self.squares, row, col)
 
         elif isinstance(piece, King):
             pass
@@ -89,8 +65,7 @@ class Board:
         elif isinstance(piece, Bishop):
             pass
 
-        elif isinstance(piece, Knight):
-            knight_moves()
+        elif isinstance(piece, Knight): piece.moves(self.squares, row, col)
 
         elif isinstance(piece, Rook):
             pass

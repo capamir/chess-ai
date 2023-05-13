@@ -4,7 +4,7 @@ from .piece import Pawn, Rook, Knight, Bishop, King, Queen
 
 class Board:
     def __init__(self):
-        self.squares = [ [0]*8 for _ in range(COLS) ]
+        self.squares = [ [0]*ROWS for _ in range(COLS) ]
         self._create()
         self._add_piece('white')
         self._add_piece('black')

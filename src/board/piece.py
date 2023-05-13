@@ -1,4 +1,5 @@
 import os
+import pygame
 
 class Piece:
     def __init__(self, name, color, value, texture=None, texture_rect=None):
@@ -21,6 +22,11 @@ class Piece:
     def add_moves(self, move):
         self.valid_moves.append(move)
 
+    # def blit_img(self, size, cor):
+    #     self.set_texture(size=size) # path
+    #     img = pygame.image.load(self.texture)
+    #     self.texture_rect = img.get_rect(center=cor)
+    #     return img, self.texture_rect
 
 class Pawn(Piece):
     def __init__(self, color):

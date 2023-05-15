@@ -19,7 +19,6 @@ class Board:
         # cunsole move update
         self.squares[initial.row][initial.col].piece = None
         self.squares[final.row][final.col].piece = piece
-
         piece.moved = True # important for pawn move
         piece.clear_moves() # clears the piece's valid moves
         self.last_move = move

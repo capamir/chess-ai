@@ -35,7 +35,7 @@ class Game:
                         self.surface.blit(img, piece.texture_rect)
 
     def show_moves(self):
-        if self.dragger.draging:
+        if self.dragger.dragging:
             piece = self.dragger.piece
             # loop all the valid moves
             for move in piece.valid_moves:

@@ -62,17 +62,17 @@ class Main:
     def mouse_motion(self, event):
         dragger = self.game.dragger
         
-        if dragger.draging:
+        if dragger.dragging:
             dragger.update_mouse_pos(event.pos)
             self.show_board()
             dragger.update_blit(self.game.surface)
 
     def mouse_released(self, board, event):
         dragger = self.game.dragger
-        if dragger.draging:
+        if dragger.dragging:
             dragger.update_mouse_pos(event.pos)
-            released_row = dragger.mouseY
-            released_col = dragger.mouseX
+            released_row = dragger.mouseY // SQSIZE
+            released_col = dragger.mouseX // SQSIZE
             # create possible move
             initial = Square(dragger.initial_row, dragger.initial_col)
             final = Square(released_row, released_col) #released square
@@ -97,7 +97,7 @@ class Main:
         while True:
             self.show_board()
 
-            if dragger.draging:
+            if dragger.dragging:
                 dragger.update_blit(game.surface)
             
             self.clicked_event()

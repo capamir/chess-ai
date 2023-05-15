@@ -5,7 +5,7 @@ from src.const import SQSIZE
 class Dragger:
     def __init__(self):
         self.piece = None
-        self.draging: bool = False
+        self.dragging: bool = False
         self.mouseX: int = 0
         self.mouseY: int = 0
         self.initial_row: int = 0
@@ -20,13 +20,13 @@ class Dragger:
 
     def draged_piece(self, piece):
         self.piece = piece
-        self.draging = True
+        self.dragging = True
     
     def undrag_piece(self):
         self.piece.set_texture()
 
         self.piece = None
-        self.draging = False
+        self.dragging = False
 
     def update_blit(self, surface):
         # path

@@ -7,11 +7,26 @@ from src.movement.move import Move
 class Board:
     def __init__(self):
         self.squares = [ [0]*ROWS for _ in range(COLS) ]
+        self.last_move = None
         self.moves = []
         self._create()
         self._add_piece('white')
         self._add_piece('black')
 
+    def move(self, piece, move):
+        initial = move.initial
+        final = move.final
+        # cunsole move update
+        self.squares[initial.row][initial.col].piece = None
+        self.squares[final.row][final.col].piece = piece
+
+        piece.moved = True # important for pawn move
+        piece.clear_moves() # clears the piece's valid moves
+        self.last_move = move
+        self.moves.append( {piece.name: move} )
+
+    def valid_move(self, piece, move):
+        return move in piece.valid_moves
 
     def _create(self):
         """
@@ -42,6 +57,7 @@ class Board:
         # bishops
         self.squares[row_other][2] = Square(row_other, 2, Bishop(color))
         self.squares[row_other][5] = Square(row_other, 5, Bishop(color))
+        # self.squares[3][3] = Square(3, 3, King(color))
 
         # queen
         self.squares[row_other][3] = Square(row_other, 3, Queen(color))
@@ -53,19 +69,15 @@ class Board:
         """
             claculate all the possible (valid) moves of a specific piece on the specific position
         """
-
+        # Pawn's moves
         if isinstance(piece, Pawn): piece.moves(self.squares, row, col)
-
-        elif isinstance(piece, King):
-            pass
-
-        elif isinstance(piece, Queen):
-            pass
-        
-        elif isinstance(piece, Bishop):
-            pass
-
+        # Knight's moves
         elif isinstance(piece, Knight): piece.moves(self.squares, row, col)
-
-        elif isinstance(piece, Rook):
-            pass
+        # Queen's moves
+        elif isinstance(piece, Queen): piece.moves(self.squares, row, col)
+        # Bishop's moves
+        elif isinstance(piece, Bishop): piece.moves(self.squares, row, col)
+        # Rook's moves
+        elif isinstance(piece, Rook): piece.moves(self.squares, row, col)
+        # King's moves
+        elif isinstance(piece, King): piece.moves(self.squares, row, col)

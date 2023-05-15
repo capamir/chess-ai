@@ -3,6 +3,9 @@ import sys
 
 from src.const import WIDTH, HEIGHT, SQSIZE
 from src.game import Game
+from src.board.square import Square
+from src.movement.move import Move
+
 
 class Main:
     def __init__(self):
@@ -27,15 +30,16 @@ class Main:
 
                 # click release 
                 elif event.type == pygame.MOUSEBUTTONUP:
-                    self.mouse_released()
+                    self.mouse_released(board, event)
 
                 # quit application
                 elif event.type == pygame.QUIT:
                     self.quit_app()
 
-    def show_board(self):
+    def show_board(self, moves=True):
         self.game.show_bg()
-        self.game.show_moves()
+        if moves:
+            self.game.show_moves()
         self.game.show_pieces()
 
     def mouse_clicked(self, board, event):
@@ -63,8 +67,23 @@ class Main:
             self.show_board()
             dragger.update_blit(self.game.surface)
 
-    def mouse_released(self):
+    def mouse_released(self, board, event):
         dragger = self.game.dragger
+        if dragger.draging:
+            dragger.update_mouse_pos(event.pos)
+            released_row = dragger.mouseY
+            released_col = dragger.mouseX
+            # create possible move
+            initial = Square(dragger.initial_row, dragger.initial_col)
+            final = Square(released_row, released_col) #released square
+            move = Move(initial, final)
+
+            # valid move ?
+            if board.valid_move(dragger.piece, move):
+                board.move(dragger.piece, move)
+                # show methods 
+                self.show_board(False)
+
         dragger.undrag_piece()
 
     def quit_app(self):

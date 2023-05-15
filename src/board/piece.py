@@ -32,6 +32,33 @@ class Piece:
         move = Move(initial, final)
         # append new valid move 
         self.valid_moves.append(move)
+    
+    def clear_moves(self):
+        self.valid_moves = []
+
+    def straightline_moves(self, squares, row, col, incrs):
+        for incr in incrs:
+            row_incr, col_incr = incr
+            possibile_row = row + row_incr
+            possibile_col = col + col_incr
+            while True:
+                if Square.in_range(possibile_row, possibile_col):
+                    # empty = continue looping
+                    if squares[possibile_row][possibile_col].is_empty():
+                        self.add_move(row, col, possibile_row, possibile_col)
+                    # has enemy piece
+                    elif squares[possibile_row][possibile_col].has_rival_piece(self.color):
+                        self.add_move(row, col, possibile_row, possibile_col)
+                        break
+                    # team piece
+                    elif squares[possibile_row][possibile_col].has_team_piece(self.color):
+                        break
+                # not in range
+                else: break
+                # incrementing incrs
+                possibile_row += row_incr
+                possibile_col += col_incr
+
 
 
 class Pawn(Piece):
@@ -83,32 +110,71 @@ class Knight(Piece):
 
 class Bishop(Piece):
     def __init__(self, color):
+        self.incrs = [
+            (-1, -1), # up left
+            (-1, 1),  # up right
+            (1, 1),   # down right
+            (1, -1),  # down left
+        ]
         super().__init__('bishop', color, 3.001)
 
     def moves(self, squares, row, col):
-        pass
-
+        self.straightline_moves(squares, row, col, self.incrs)
+        
 
 class Rook(Piece):
     def __init__(self, color):
+        self.incrs = [
+            (-1, 0), # up
+            (1, 0),  # down
+            (0, 1),  # right
+            (0, -1), # left
+        ]
         super().__init__('rook', color, 5.0)
 
     def moves(self, squares, row, col):
-        pass
-    
+        self.straightline_moves(squares, row, col, self.incrs)
+
 
 class Queen(Piece):
     def __init__(self, color):
+        self.incrs = [
+            (-1, 0), # up
+            (1, 0),  # down
+            (0, 1),  # right
+            (0, -1), # left
+            (-1, -1), # up left
+            (-1, 1),  # up right
+            (1, 1),   # down right
+            (1, -1),  # down left
+        ]
         super().__init__('queen', color, 9.0)
 
     def moves(self, squares, row, col):
-        pass
-
+        self.straightline_moves(squares, row, col, self.incrs)
+        
 
 class King(Piece):
     def __init__(self, color):
+        self.incrs = [
+            (-1, 0), # up
+            (1, 0),  # down
+            (0, 1),  # right
+            (0, -1), # left
+            (-1, -1), # up left
+            (-1, 1),  # up right
+            (1, 1),   # down right
+            (1, -1),  # down left   
+        ]
         super().__init__('king', color, 10000.0)
 
     def moves(self, squares, row, col):
-        pass
+        for incr in self.incrs:
+            row_incr, col_incr = incr
+            possibile_row = row + row_incr
+            possibile_col = col + col_incr
+
+            if Square.in_range(possibile_row, possibile_col):
+                if squares[possibile_row][possibile_col].is_empty_or_rival(self.color):
+                    self.add_move(row, col, possibile_row, possibile_col)
     

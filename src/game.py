@@ -7,9 +7,11 @@ from .movement.dragger import Dragger
 class Game:
     def __init__(self, surface):
         self.surface = surface
+        self.next_player = 'white'
         self.board = Board()
         self.dragger = Dragger()
 
+    # show methods
     def show_bg(self):
         for row in range(ROWS):
             for col in range(COLS):
@@ -46,3 +48,6 @@ class Game:
                 # blit
                 pygame.draw.rect(self.surface, color, rect)
 
+    # other methods
+    def next_turn(self):
+        self.next_player = 'white' if self.next_player == 'black' else 'black'

@@ -1,6 +1,6 @@
 import pygame
 
-from .conf.const import ROWS, COLS, SQSIZE
+from .conf.const import ROWS, COLS, SQSIZE, HEIGHT
 from .conf.config import Config
 from .board.board import Board, Square
 from .movement.dragger import Dragger
@@ -33,6 +33,16 @@ class Game:
                     lbl = self.config.font.render(str(ROWS-row), 1, color)
                     # label position
                     lbl_pos = (5, 5 + row*SQSIZE)
+                    # blit
+                    self.surface.blit(lbl, lbl_pos)
+
+                if row == 7:
+                    # color
+                    color = theme.bg_color(row, col, reverse=True)
+                    # label
+                    lbl = self.config.font.render(Square.get_alphacol(col), 1, color)
+                    # label position
+                    lbl_pos = ((col+1)*SQSIZE -20, HEIGHT-20)
                     # blit
                     self.surface.blit(lbl, lbl_pos)
 

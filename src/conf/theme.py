@@ -9,7 +9,9 @@ class Theme:
         self.trace = Color(light_trace, dark_trace)
         self.moves = Color(light_moves, dark_moves)
     
-    def bg_color(self, row, col):
+    def bg_color(self, row, col, reverse=False):
+        if reverse:
+            return self.bg.dark if (row + col) % 2 == 0 else self.bg.light
         return self.bg.light if (row + col) % 2 == 0 else self.bg.dark
     
     def trace_color(self, row, col):

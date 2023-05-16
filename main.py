@@ -84,6 +84,7 @@ class Main:
     def mouse_released(self, board, event):
         dragger = self.game.dragger
         if dragger.dragging:
+            # released position
             dragger.update_mouse_pos(event.pos)
             released_row = dragger.mouseY // SQSIZE
             released_col = dragger.mouseX // SQSIZE
@@ -94,9 +95,18 @@ class Main:
 
             # valid move ?
             if board.valid_move(dragger.piece, move):
+                captured = board.squares[released_row][released_col].has_piece()
+                # move the piece
                 board.move(dragger.piece, move)
+                # play move sound
+                if captured: # capture sound
+                    self.game.sound_effect(captured=True)
+                else: # move sound
+                    self.game.sound_effect()
+
                 # show methods 
                 self.show_board(False)
+                # next turn
                 self.game.next_turn()
 
             dragger.undrag_piece()

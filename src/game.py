@@ -1,6 +1,6 @@
 import pygame
 
-from .conf.const import ROWS, COLS, SQSIZE, COLORS
+from .conf.const import ROWS, COLS, SQSIZE
 from .conf.config import Config
 from .board.board import Board, Square
 from .movement.dragger import Dragger
@@ -26,6 +26,17 @@ class Game:
                 # blit
                 pygame.draw.rect(self.surface, color, rect)
 
+                if col == 0:
+                    # color
+                    color = theme.bg_color(row, col, reverse=True)
+                    # label
+                    lbl = self.config.font.render(str(ROWS-row), 1, color)
+                    # label position
+                    lbl_pos = (5, 5 + row*SQSIZE)
+                    # blit
+                    self.surface.blit(lbl, lbl_pos)
+
+
     def show_pieces(self):
         for row in range(ROWS):
             for col in range(COLS):
@@ -50,7 +61,7 @@ class Game:
                 # rect
                 rect = Square.rect(move.final.row, move.final.col)
                 # blit
-                pygame.draw.rect(self.surface, color, rect)
+                self._blit(color, rect)
 
     def show_last_move(self):
         theme = self.config.theme
@@ -64,17 +75,20 @@ class Game:
                 # rect
                 rect = Square.rect(pos.row, pos.col)
                 # blit
-                pygame.draw.rect(self.surface, color, rect)
+                self._blit(color, rect)
     
     def show_hover(self):
         if self.hovered_sqr:
             # color
             color = (180, 180, 180)
             # rect
-            rect = (self.hovered_sqr.col*SQSIZE, self.hovered_sqr.row*SQSIZE, SQSIZE, SQSIZE)
+            rect = Square.rect(self.hovered_sqr.row, self.hovered_sqr.col)
             # blit
             pygame.draw.rect(self.surface, color, rect, width=3)
 
+    def _blit(self, color, rect):
+        pygame.draw.rect(self.surface, color, rect)
+        
 
     # other methods
     def next_turn(self):
@@ -85,3 +99,9 @@ class Game:
 
     def change_theme(self):
         self.config.change_theme()
+
+    def sound_effect(self, captured=False):
+        if captured:
+            self.config.capture_sound.play()
+        else: 
+            self.config.move_sound.play()

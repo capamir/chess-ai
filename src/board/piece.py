@@ -175,5 +175,5 @@ class King(Piece):
         super().__init__('king', color, 10000.0)
 
     def moves(self, squares, row, col):
-        self.circle_moves(squares, row, col)
+        self.circle_moves(squares, row, col, self.incrs)
     

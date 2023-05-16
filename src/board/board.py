@@ -19,10 +19,19 @@ class Board:
         # cunsole move update
         self.squares[initial.row][initial.col].piece = None
         self.squares[final.row][final.col].piece = piece
+
+        # pawn promotion
+        if isinstance(piece, Pawn):
+            self.check_promotion(piece, final)
+
         piece.moved = True # important for pawn move
         piece.clear_moves() # clears the piece's valid moves
         self.last_move = move
         self.moves.append( {piece.name: move} )
+
+    def check_promotion(self, piece, final):
+        if final.row == 0 or final.row == 7:
+            self.squares[final.row][final.col].piece = Queen(piece.color)
 
     def valid_move(self, piece, move):
         return move in piece.valid_moves

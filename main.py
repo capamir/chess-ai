@@ -32,6 +32,12 @@ class Main:
                 elif event.type == pygame.MOUSEBUTTONUP:
                     self.mouse_released(board, event)
 
+                # key press
+                elif event.type == pygame.KEYDOWN:
+                    # changing themes
+                    if event.key == pygame.K_t:
+                        self.game.change_theme()
+
                 # quit application
                 elif event.type == pygame.QUIT:
                     self.quit_app()

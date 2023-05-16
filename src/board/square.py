@@ -1,3 +1,6 @@
+from src.conf.const import SQSIZE
+
+
 class Square:
     def __init__(self, row, col, piece=None):
         self.row = row
@@ -28,3 +31,7 @@ class Square:
             if arg<0 or arg>7:
                 return False
         return True
+    
+    @staticmethod
+    def rect(row, col):
+        return (col*SQSIZE, row*SQSIZE, SQSIZE, SQSIZE)

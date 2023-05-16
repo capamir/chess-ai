@@ -59,6 +59,16 @@ class Piece:
                 possible_row += row_incr
                 possible_col += col_incr
 
+    def circle_moves(self, squares, row, col, incrs):
+        for incr in incrs:
+            row_incr, col_incr = incr
+            possible_row = row + row_incr
+            possible_col = col + col_incr
+
+            if Square.in_range(possible_row, possible_col):
+                if squares[possible_row][possible_col].is_empty_or_rival(self.color):
+                    self.add_move(row, col, possible_row, possible_col)
+
 
 
 class Pawn(Piece):
@@ -101,13 +111,7 @@ class Knight(Piece):
         super().__init__('knight', color, 3.0)
     
     def moves(self, squares, row, col):
-        for incr in self.incrs:
-            row_incr, col_incr = incr
-            possible_row = row + row_incr
-            possible_col = col + col_incr
-            if Square.in_range(possible_row, possible_col):
-                if squares[possible_row][possible_col].is_empty_or_rival(self.color):
-                    self.add_move(row, col, possible_row, possible_col)
+        self.circle_moves(squares, row, col, self.incrs)
 
 
 class Bishop(Piece):
@@ -171,12 +175,5 @@ class King(Piece):
         super().__init__('king', color, 10000.0)
 
     def moves(self, squares, row, col):
-        for incr in self.incrs:
-            row_incr, col_incr = incr
-            possible_row = row + row_incr
-            possible_col = col + col_incr
-
-            if Square.in_range(possible_row, possible_col):
-                if squares[possible_row][possible_col].is_empty_or_rival(self.color):
-                    self.add_move(row, col, possible_row, possible_col)
+        self.circle_moves(squares, row, col)
     

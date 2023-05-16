@@ -1,4 +1,4 @@
-from src.const import COLS, ROWS
+from src.conf.const import COLS, ROWS
 from .square import Square
 from .piece import Pawn, Rook, Knight, Bishop, King, Queen
 from src.movement.move import Move

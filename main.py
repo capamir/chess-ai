@@ -1,7 +1,7 @@
 import pygame
 import sys
 
-from src.const import WIDTH, HEIGHT, SQSIZE
+from src.conf.const import WIDTH, HEIGHT, SQSIZE
 from src.game import Game
 from src.board.square import Square
 from src.movement.move import Move
@@ -36,11 +36,14 @@ class Main:
                 elif event.type == pygame.QUIT:
                     self.quit_app()
 
-    def show_board(self, moves=True):
+    def show_board(self, moves=True, hover=False):
         self.game.show_bg()
+        self.game.show_last_move()
         if moves:
             self.game.show_moves()
         self.game.show_pieces()
+        if hover:
+            self.game.show_hover()
 
     def mouse_clicked(self, board, event):
         dragger = self.game.dragger
@@ -63,10 +66,13 @@ class Main:
 
     def mouse_motion(self, event):
         dragger = self.game.dragger
+        motion_row = event.pos[1] // SQSIZE
+        motion_col = event.pos[0] // SQSIZE
+        self.game.set_hover(motion_row, motion_col)
         
         if dragger.dragging:
             dragger.update_mouse_pos(event.pos)
-            self.show_board()
+            self.show_board(hover=True)
             dragger.update_blit(self.game.surface)
 
     def mouse_released(self, board, event):
@@ -98,7 +104,7 @@ class Main:
         dragger = self.game.dragger
 
         while True:
-            self.show_board()
+            self.show_board(hover=True)
 
             if dragger.dragging:
                 dragger.update_blit(game.surface)

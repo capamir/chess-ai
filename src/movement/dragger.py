@@ -1,6 +1,6 @@
 import pygame
 
-from src.const import SQSIZE
+from src.conf.const import SQSIZE
 
 class Dragger:
     def __init__(self):

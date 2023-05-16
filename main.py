@@ -37,6 +37,11 @@ class Main:
                     # changing themes
                     if event.key == pygame.K_t:
                         self.game.change_theme()
+                    # reset the game
+                    if event.key == pygame.K_r:
+                        self.game.reset()
+                        game = self.game
+                        dragger = self.game.dragger
 
                 # quit application
                 elif event.type == pygame.QUIT:

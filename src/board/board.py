@@ -23,6 +23,11 @@ class Board:
         # pawn promotion
         if isinstance(piece, Pawn):
             self.check_promotion(piece, final)
+        
+        # castling
+        if isinstance(piece, King):
+            if final.col == 6 or final.col == 2:
+                self.casting(piece.color, initial, final)
 
         piece.moved = True # important for pawn move
         piece.clear_moves() # clears the piece's valid moves
@@ -32,6 +37,21 @@ class Board:
     def check_promotion(self, piece, final):
         if final.row == 0 or final.row == 7:
             self.squares[final.row][final.col].piece = Queen(piece.color)
+    
+    def casting(self, color, initial, final):
+        # king castling
+        if final.col == 6:
+            rook_initial_col = 7
+            rook_final_col = 5
+            
+        # queen castling
+        elif final.col == 2:
+            rook_initial_col = 0
+            rook_final_col = 3
+            
+        self.squares[initial.row][rook_initial_col].piece = None
+        self.squares[final.row][rook_final_col].piece = Rook(color)
+
 
     def valid_move(self, piece, move):
         return move in piece.valid_moves

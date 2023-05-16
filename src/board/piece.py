@@ -175,5 +175,37 @@ class King(Piece):
         super().__init__('king', color, 10000.0)
 
     def moves(self, squares, row, col):
+        # castling
+        if not self.moved:
+            # King castling increment
+            if King.king_castling_valid(squares, row):
+                self.incrs.append( (0, 2) )
+            # Queen castling increment
+            if King.queen_castling_valid(squares, row):
+                self.incrs.append( (0, -2) )
+
         self.circle_moves(squares, row, col, self.incrs)
     
+
+    @staticmethod
+    def king_castling_valid(squares, row):
+        right_rook = squares[row][7].piece
+        if isinstance(right_rook, Rook):
+            if not right_rook.moved:
+                for col in range(5, 7):
+                    # castling is not possible cause there are pieces in between
+                    if squares[row][col].has_piece(): 
+                        return False
+                return True
+
+
+    @staticmethod
+    def queen_castling_valid(squares, row):
+        left_rook = squares[row][0].piece
+        if isinstance(left_rook, Rook):
+            if not left_rook.moved:
+                for col in range(1, 4):
+                    # castling is not possible cause there are pieces in between
+                    if squares[row][col].has_piece(): 
+                        return False
+                return True

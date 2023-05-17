@@ -26,7 +26,7 @@ class Board:
         
         # castling
         if isinstance(piece, King):
-            if final.col == 6 or final.col == 2:
+            if self.is_castling(initial, final):
                 self.casting(piece.color, initial, final)
 
         piece.moved = True # important for pawn move
@@ -37,6 +37,9 @@ class Board:
     def check_promotion(self, piece, final):
         if final.row == 0 or final.row == 7:
             self.squares[final.row][final.col].piece = Queen(piece.color)
+    
+    def is_castling(self, initial, final):
+        return abs(initial.col - final.col) == 2
     
     def casting(self, color, initial, final):
         # king castling
